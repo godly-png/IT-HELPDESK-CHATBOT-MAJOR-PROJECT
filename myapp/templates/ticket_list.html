@@ -1,0 +1,27 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Tickets</title>
+</head>
+<body>
+    <h2>Your IT Helpdesk Tickets</h2>
+
+    {% if tickets %}
+        <ul>
+            {% for t in tickets %}
+                <li>
+                    <strong>{{ t.subject }}</strong> - {{ t.status }} <br>
+                    {{ t.description }}
+                </li>
+                <hr>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tickets found.</p>
+    {% endif %}
+</body>
+</html>
+
