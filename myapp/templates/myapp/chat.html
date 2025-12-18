@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IT Helpdesk Chatbot</title>
+</head>
+<body>
+    <h2>IT Helpdesk Chatbot</h2>
+
+    <div id="chat">
+        {% if user_input %}
+            <p><b>You:</b> {{ user_input }}</p>
+            <p><b>Bot:</b> {{ response }}</p>
+        {% endif %}
+    </div>
+    
+
+    <input id="msg" type="text" placeholder="Type your message">
+    <button onclick="send()">Send</button>
+
+    <script>
+        // Get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    cookie = cookie.trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
+        function send() {
+            let text = document.getElementById("msg").value;
+            if (text.trim() === "") return;
+
+            fetch("/chat/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": csrftoken
+                },
+                body: "user_input=" + encodeURIComponent(text)
+            })
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById("chat").innerHTML = html;
+                document.getElementById("msg").value = '';
+            })
+            .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>

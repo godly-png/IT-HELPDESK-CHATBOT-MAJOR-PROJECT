@@ -40,4 +40,10 @@ urlpatterns = [
 
     # # Chat history
     path('chat/history/', views.chat_history, name='chat_history'),
+
+    path('chat/', views.chatbot_page, name='chatbot_page'),
+
+
+    # path("chat/", views.chatbot_page, name="chat"),
+    # path("chatbot_api/", views.chatbot_api, name="chatbot_api"),
 ]

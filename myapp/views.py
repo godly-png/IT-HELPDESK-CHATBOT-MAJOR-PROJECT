@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+
+
 from .forms import RegisterForm, LoginForm
 from .models import Ticket
 from django.shortcuts import render
@@ -145,3 +147,42 @@ def ticket_list(request):
 def ticket_detail(request, id):
     ticket = get_object_or_404(Ticket, id=id, user=request.user)
     return render(request, "ticket_detail.html", {"ticket": ticket})
+
+
+# from django.shortcuts import render
+
+# def chatbot_page(request):
+#     response = ""
+#     if request.method == "POST":
+#         user_input = request.POST.get("user_input")
+        
+#         # --- Placeholder chatbot logic ---
+#         # Replace this with your actual AI/chatbot processing
+#         if user_input:
+#             response = f"You said: {user_input}"
+#         else:
+#             response = "Please enter a message."
+
+#     return render(request, 'myapp/chat.html', {'response': response})
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def chatbot_page(request):
+    response = ""
+    user_input = ""
+    if request.method == "POST":
+        user_input = request.POST.get("user_input")
+        if user_input:
+            # Placeholder bot logic; replace with real AI logic if needed
+            response = f"You said: {user_input}"
+        else:
+            response = "Please enter a message."
+
+    return render(request, 'myapp/chat.html', {'response': response, 'user_input': user_input})
+
+
+
+
